@@ -6,9 +6,8 @@ import proj.zoie.api.indexing.IndexReaderDecorator;
 
 /**
  * @author "Xiaoyang Gu<xgu@linkedin.com>"
- * 
  */
 public abstract class RAMIndexFactory<R extends IndexReader> {
-  public abstract RAMSearchIndex<R> newInstance(String version, IndexReaderDecorator<R> decorator,
-      SearchIndexManager<R> idxMgr);
+    public abstract RAMSearchIndex<R> newInstance(String version, IndexReaderDecorator<R> decorator,
+                                                  SearchIndexManager<R> idxMgr);
 }

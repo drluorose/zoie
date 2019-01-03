@@ -7,9 +7,9 @@ package proj.zoie.api.impl.util;
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,75 +22,85 @@ import java.io.IOException;
 import org.apache.lucene.search.DocIdSet;
 import org.apache.lucene.search.DocIdSetIterator;
 
+/**
+ * @author dongjiejie
+ */
 public class ArrayDocIdSet extends DocIdSet {
-  private final int[] _docids;
-  private final int _lengthminusone;
+    private final int[] _docids;
+    private final int _lengthminusone;
 
-  public ArrayDocIdSet(int[] docids) {
-    _docids = docids;
-    if (docids != null) _lengthminusone = docids.length - 1;
-    else _lengthminusone = -1;
-  }
-
-  final private static int binarySearch(int[] a, int key) {
-    return binarySearch(a, key, 0, a.length - 1);
-  }
-
-  final private static int binarySearch(int[] a, int key, int low, int high) {
-    while (low <= high) {
-      int mid = (low + high) >>> 1;
-      int midVal = a[mid];
-      int cmp;
-
-      cmp = midVal - key;
-
-      if (cmp < 0) low = mid + 1;
-      else if (cmp > 0) high = mid - 1;
-      else return mid;
+    public ArrayDocIdSet(int[] docids) {
+        _docids = docids;
+        if (docids != null) {
+            _lengthminusone = docids.length - 1;
+        } else {
+            _lengthminusone = -1;
+        }
     }
-    return -(low + 1);
-  }
 
-  @Override
-  public DocIdSetIterator iterator() {
-    return new DocIdSetIterator() {
-      int doc = -1;
-      int current = -1;
-      int largest = _lengthminusone;
+    final private static int binarySearch(int[] a, int key) {
+        return binarySearch(a, key, 0, a.length - 1);
+    }
 
-      @Override
-      public int docID() {
-        return doc;
-      }
+    final private static int binarySearch(int[] a, int key, int low, int high) {
+        while (low <= high) {
+            int mid = (low + high) >>> 1;
+            int midVal = a[mid];
+            int cmp;
 
-      @Override
-      public int nextDoc() throws IOException {
-        if (current < _lengthminusone) {
-          current++;
-          doc = _docids[current];
-          return doc;
+            cmp = midVal - key;
+
+            if (cmp < 0) {
+                low = mid + 1;
+            } else if (cmp > 0) {
+                high = mid - 1;
+            } else {
+                return mid;
+            }
         }
-        return DocIdSetIterator.NO_MORE_DOCS;
-      }
+        return -(low + 1);
+    }
 
-      @Override
-      public int advance(int target) throws IOException {
-        int idx = current < 0 ? binarySearch(_docids, target) : binarySearch(_docids, target,
-          current, largest);
-        if (idx < 0) {
-          idx = -(idx + 1);
-          if (idx >= _docids.length) return DocIdSetIterator.NO_MORE_DOCS;
-        }
-        current = idx;
-        doc = _docids[current];
-        return doc;
-      }
+    @Override
+    public DocIdSetIterator iterator() {
+        return new DocIdSetIterator() {
+            int doc = -1;
+            int current = -1;
+            int largest = _lengthminusone;
 
-      @Override
-      public long cost() {
-        // TODO Auto-generated method stub
-        return 0;
-      }
-    };
-  }
+            @Override
+            public int docID() {
+                return doc;
+            }
+
+            @Override
+            public int nextDoc() throws IOException {
+                if (current < _lengthminusone) {
+                    current++;
+                    doc = _docids[current];
+                    return doc;
+                }
+                return DocIdSetIterator.NO_MORE_DOCS;
+            }
+
+            @Override
+            public int advance(int target) throws IOException {
+                int idx = current < 0 ? binarySearch(_docids, target) : binarySearch(_docids, target,
+                        current, largest);
+                if (idx < 0) {
+                    idx = -(idx + 1);
+                    if (idx >= _docids.length) return DocIdSetIterator.NO_MORE_DOCS;
+                }
+                current = idx;
+                doc = _docids[current];
+                return doc;
+            }
+
+            @Override
+            public long cost() {
+                // TODO Auto-generated method stub
+                return 0;
+            }
+        };
+    }
 }

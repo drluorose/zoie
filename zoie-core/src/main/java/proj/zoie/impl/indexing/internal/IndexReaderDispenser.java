@@ -62,7 +62,9 @@ public class IndexReaderDispenser<R extends IndexReader> {
     /**
      * constructs a new IndexReader instance
      *
-     * @param indexPath Where the index is.
+     * @param dirMgr    Where the index is.
+     * @param decorator
+     * @param signature
      * @return Constructed IndexReader instance.
      * @throws IOException
      */
@@ -171,7 +173,9 @@ public class IndexReaderDispenser<R extends IndexReader> {
             // all the clients release their hold on it, the reader will be closed
             // automatically.
             log.info("swap disk reader and release old one from system");
-            if (oldReader != null) oldReader.decZoieRef();
+            if (oldReader != null) {
+                oldReader.decZoieRef();
+            }
         }
         return reader;
     }

@@ -34,7 +34,9 @@ public class FileDataProvider extends StreamDataProvider<File> {
 
     public FileDataProvider(File dir, Comparator<String> versionComparator) {
         super(versionComparator);
-        if (!dir.exists()) throw new IllegalArgumentException("dir: " + dir + " does not exist.");
+        if (!dir.exists()) {
+            throw new IllegalArgumentException("dir: " + dir + " does not exist.");
+        }
         _dir = dir;
         _stack = new Stack<Iterator<File>>();
         _looping = false;

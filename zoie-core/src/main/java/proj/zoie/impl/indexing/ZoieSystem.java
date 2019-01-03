@@ -610,7 +610,9 @@ public class ZoieSystem<R extends IndexReader, D> extends AsyncDataConsumer<D> i
     @Override
     public void returnIndexReaders(List<ZoieMultiReader<R>> readers) {
         long t0 = System.currentTimeMillis();
-        if (readers == null || readers.size() == 0) return;
+        if (readers == null || readers.size() == 0) {
+            return;
+        }
         readercache.returnIndexReaders(readers);
         t0 = System.currentTimeMillis() - t0;
         if (t0 > SLA) {
@@ -699,7 +701,9 @@ public class ZoieSystem<R extends IndexReader, D> extends AsyncDataConsumer<D> i
         @Override
         public long getDiskFreeSpaceBytes() {
             File index = new File(getIndexDir());
-            if (!index.exists()) return -1;
+            if (!index.exists()) {
+                return -1;
+            }
             return index.getUsableSpace();
         }
 

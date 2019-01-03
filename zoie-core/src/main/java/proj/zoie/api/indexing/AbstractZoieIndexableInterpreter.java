@@ -6,5 +6,6 @@ package proj.zoie.api.indexing;
  * @param <V> The type of the data to be interpreted.
  */
 public abstract class AbstractZoieIndexableInterpreter<V> implements ZoieIndexableInterpreter<V> {
+  @Override
   public abstract ZoieIndexable convertAndInterpret(V src);
 }

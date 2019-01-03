@@ -7,15 +7,16 @@ package proj.zoie.api;
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import java.io.IOException;
 
 import org.apache.lucene.index.AtomicReaderContext;
@@ -28,27 +29,27 @@ import org.apache.lucene.util.Bits;
  * Filter implementation based on a list of uids
  */
 public class UIDFilter extends Filter {
-  private final long[] _filteredIDs;
-  private final ZoieSegmentReader<?>[] _subZoieReaders;
+    private final long[] _filteredIDs;
+    private final ZoieSegmentReader<?>[] _subZoieReaders;
 
-  public UIDFilter(long[] filteredIDs, ZoieMultiReader<?> reader) {
-    _filteredIDs = filteredIDs;
-    _subZoieReaders = reader.getSubReaders();
-  }
+    public UIDFilter(long[] filteredIDs, ZoieMultiReader<?> reader) {
+        _filteredIDs = filteredIDs;
+        _subZoieReaders = reader.getSubReaders();
+    }
 
-  @Override
-  public DocIdSet getDocIdSet(AtomicReaderContext ctx, Bits acceptDocs) throws IOException {
-    SegmentReader reader = (SegmentReader) (ctx.reader());
-    int idx = -1;
-    for (int i = 0; i < _subZoieReaders.length; ++i) {
-      if (_subZoieReaders[i].getSegmentName().equals(reader.getSegmentName())) {
-        idx = i;
-        break;
-      }
+    @Override
+    public DocIdSet getDocIdSet(AtomicReaderContext ctx, Bits acceptDocs) throws IOException {
+        SegmentReader reader = (SegmentReader) (ctx.reader());
+        int idx = -1;
+        for (int i = 0; i < _subZoieReaders.length; ++i) {
+            if (_subZoieReaders[i].getSegmentName().equals(reader.getSegmentName())) {
+                idx = i;
+                break;
+            }
+        }
+        if (idx == -1) {
+            throw new IOException("Can't find sub-reader");
+        }
+        return new UIDDocIdSet(_filteredIDs, _subZoieReaders[idx].getDocIDMapper());
     }
-    if (idx == -1) {
-      throw new IOException("Can't find sub-reader");
-    }
-    return new UIDDocIdSet(_filteredIDs, _subZoieReaders[idx].getDocIDMapper());
-  }
 }

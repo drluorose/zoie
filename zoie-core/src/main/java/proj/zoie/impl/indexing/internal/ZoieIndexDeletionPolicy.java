@@ -7,15 +7,16 @@ package proj.zoie.impl.indexing.internal;
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,90 +27,94 @@ import org.apache.lucene.index.IndexDeletionPolicy;
 
 /**
  * @author ymatsuda
- *
  */
 public class ZoieIndexDeletionPolicy extends IndexDeletionPolicy {
-  private IndexCommit _lastCommit;
-  private final HashMap<String, Snapshot> _currentSnapshots = new HashMap<String, Snapshot>();
+    private IndexCommit _lastCommit;
+    private final HashMap<String, Snapshot> _currentSnapshots = new HashMap<String, Snapshot>();
 
-  public ZoieIndexDeletionPolicy() {
-    _lastCommit = null;
-  }
-
-  @Override
-  public void onInit(List<? extends IndexCommit> commits) throws IOException {
-    processCommits(commits);
-  }
-
-  @Override
-  public void onCommit(List<? extends IndexCommit> commits) throws IOException {
-    processCommits(commits);
-  }
-
-  private synchronized void processCommits(List<? extends IndexCommit> commits) {
-    int size = commits.size();
-    if (size == 0) return;
-
-    IndexCommit indexCommit = null;
-    for (Object commit : commits) {
-      indexCommit = (IndexCommit) commit;
-      if (--size > 0 && !_currentSnapshots.containsKey(indexCommit.getSegmentsFileName())) {
-        indexCommit.delete();
-      }
-    }
-    _lastCommit = indexCommit;
-  }
-
-  public synchronized Snapshot getSnapshot() {
-    if (_lastCommit == null) return null; // no commit yet
-
-    Snapshot snapshot;
-    synchronized (_currentSnapshots) {
-      String name = _lastCommit.getSegmentsFileName();
-      snapshot = _currentSnapshots.get(name);
-      if (snapshot == null) {
-        snapshot = new Snapshot(_lastCommit);
-        _currentSnapshots.put(name, snapshot);
-      } else {
-        snapshot.incRef();
-      }
-    }
-    return snapshot;
-  }
-
-  public class Snapshot {
-    private final IndexCommit _commit;
-    private int _refcount;
-
-    public Snapshot(IndexCommit commit) {
-      _commit = commit;
-      _refcount = 1;
-    }
-
-    public Collection<String> getFileNames() throws IOException {
-      return _commit.getFileNames();
-    }
-
-    public void close() {
-      decRef();
-    }
-
-    private synchronized void incRef() {
-      _refcount++;
-    }
-
-    private synchronized void decRef() {
-      if (--_refcount <= 0) {
-        synchronized (_currentSnapshots) {
-          _currentSnapshots.remove(_commit.getSegmentsFileName());
-        }
-      }
+    public ZoieIndexDeletionPolicy() {
+        _lastCommit = null;
     }
 
     @Override
-    public void finalize() {
-      _refcount = 0;
-      close();
+    public void onInit(List<? extends IndexCommit> commits) throws IOException {
+        processCommits(commits);
     }
-  }
+
+    @Override
+    public void onCommit(List<? extends IndexCommit> commits) throws IOException {
+        processCommits(commits);
+    }
+
+    private synchronized void processCommits(List<? extends IndexCommit> commits) {
+        int size = commits.size();
+        if (size == 0) {
+            return;
+        }
+
+        IndexCommit indexCommit = null;
+        for (Object commit : commits) {
+            indexCommit = (IndexCommit) commit;
+            if (--size > 0 && !_currentSnapshots.containsKey(indexCommit.getSegmentsFileName())) {
+                indexCommit.delete();
+            }
+        }
+        _lastCommit = indexCommit;
+    }
+
+    public synchronized Snapshot getSnapshot() {
+        // no commit yet
+        if (_lastCommit == null) {
+            return null;
+        }
+
+        Snapshot snapshot;
+        synchronized (_currentSnapshots) {
+            String name = _lastCommit.getSegmentsFileName();
+            snapshot = _currentSnapshots.get(name);
+            if (snapshot == null) {
+                snapshot = new Snapshot(_lastCommit);
+                _currentSnapshots.put(name, snapshot);
+            } else {
+                snapshot.incRef();
+            }
+        }
+        return snapshot;
+    }
+
+    public class Snapshot {
+        private final IndexCommit _commit;
+        private int _refcount;
+
+        public Snapshot(IndexCommit commit) {
+            _commit = commit;
+            _refcount = 1;
+        }
+
+        public Collection<String> getFileNames() throws IOException {
+            return _commit.getFileNames();
+        }
+
+        public void close() {
+            decRef();
+        }
+
+        private synchronized void incRef() {
+            _refcount++;
+        }
+
+        private synchronized void decRef() {
+            if (--_refcount <= 0) {
+                synchronized (_currentSnapshots) {
+                    _currentSnapshots.remove(_commit.getSegmentsFileName());
+                }
+            }
+        }
+
+        @Override
+        public void finalize() {
+            _refcount = 0;
+            close();
+        }
+    }
 }

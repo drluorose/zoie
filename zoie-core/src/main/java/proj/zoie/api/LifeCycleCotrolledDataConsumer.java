@@ -1,7 +1,7 @@
 package proj.zoie.api;
 
 public interface LifeCycleCotrolledDataConsumer<D> extends DataConsumer<D> {
-  void start();
+    void start();
 
-  void stop();
+    void stop();
 }

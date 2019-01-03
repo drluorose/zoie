@@ -7,15 +7,16 @@ package proj.zoie.impl.indexing;
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import org.apache.log4j.Logger;
 
 import proj.zoie.api.ZoieHealth;
@@ -24,16 +25,16 @@ import proj.zoie.api.ZoieHealth;
  * The thread handling indexing in background. Such thread reports UncaughtExceptions automatically.
  */
 public class IndexingThread extends Thread {
-  private static final Logger log = Logger.getLogger(IndexingThread.class);
-  private static final Thread.UncaughtExceptionHandler exceptionHandler = new Thread.UncaughtExceptionHandler() {
-    public void uncaughtException(Thread thread, Throwable t) {
-      ZoieHealth.setFatal();
-      log.error(thread.getName() + " is abruptly terminated", t);
-    }
-  };
+    private static final Logger log = Logger.getLogger(IndexingThread.class);
+    private static final Thread.UncaughtExceptionHandler exceptionHandler = new Thread.UncaughtExceptionHandler() {
+        public void uncaughtException(Thread thread, Throwable t) {
+            ZoieHealth.setFatal();
+            log.error(thread.getName() + " is abruptly terminated", t);
+        }
+    };
 
-  public IndexingThread(String name) {
-    super(name);
-    this.setUncaughtExceptionHandler(exceptionHandler);
-  }
+    public IndexingThread(String name) {
+        super(name);
+        this.setUncaughtExceptionHandler(exceptionHandler);
+    }
 }

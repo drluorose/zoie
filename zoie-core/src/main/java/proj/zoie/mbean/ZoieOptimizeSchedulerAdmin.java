@@ -27,18 +27,22 @@ public class ZoieOptimizeSchedulerAdmin implements ZoieOptimizeSchedulerAdminMBe
     _optimizeScheduler = optimizeScheduler;
   }
 
+  @Override
   public long getOptimizationDuration() {
     return _optimizeScheduler.getOptimizeDuration();
   }
 
+  @Override
   public void setOptimizationDuration(long duration) {
     _optimizeScheduler.setOptimizeDuration(duration);
   }
 
+  @Override
   public void setDateToStartOptimize(Date optimizeStartDate) {
     _optimizeScheduler.setDateToStartOptimize(optimizeStartDate);
   }
 
+  @Override
   public Date getDateToStartOptimize() {
     return _optimizeScheduler.getDateToStartOptimize();
   }

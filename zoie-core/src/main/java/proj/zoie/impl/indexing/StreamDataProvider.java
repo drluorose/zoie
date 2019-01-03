@@ -76,7 +76,9 @@ public abstract class StreamDataProvider<D> implements DataProvider<D>, DataProv
     @Override
     public long getEventsPerMinute() {
         DataThread<D> thread = _thread;
-        if (thread == null) return 0;
+        if (thread == null) {
+            return 0;
+        }
         return thread.getEventsPerMinute();
     }
 
@@ -95,21 +97,27 @@ public abstract class StreamDataProvider<D> implements DataProvider<D>, DataProv
     public void setMaxEventsPerMinute(long maxEventsPerMinute) {
         _maxEventsPerMinute = maxEventsPerMinute;
         DataThread<D> thread = _thread;
-        if (thread == null) return;
+        if (thread == null) {
+            return;
+        }
         thread.setMaxEventsPerMinute(_maxEventsPerMinute);
     }
 
     public void setMaxVolatileTime(long timeInMillis) {
         _maxVolatileTimeInMillis = timeInMillis;
         DataThread<D> thread = _thread;
-        if (thread == null) return;
+        if (thread == null) {
+            return;
+        }
         thread.setMaxVolatileTime(_maxVolatileTimeInMillis);
     }
 
     @Override
     public String getStatus() {
         DataThread<D> thread = _thread;
-        if (thread == null) return "dead";
+        if (thread == null) {
+            return "dead";
+        }
         return thread.getStatus() + " : " + thread.getState();
     }
 
@@ -135,8 +143,11 @@ public abstract class StreamDataProvider<D> implements DataProvider<D>, DataProv
     @Override
     public long getEventCount() {
         DataThread<D> thread = _thread;
-        if (thread != null) return _thread.getEventCount();
-        else return 0;
+        if (thread != null) {
+            return _thread.getEventCount();
+        } else {
+            return 0;
+        }
     }
 
     @Override
@@ -187,8 +198,12 @@ public abstract class StreamDataProvider<D> implements DataProvider<D>, DataProv
 
         private String getStatus() {
             synchronized (this) {
-                if (_stop) return "stopped";
-                if (_paused) return "paused";
+                if (_stop) {
+                    return "stopped";
+                }
+                if (_paused) {
+                    return "paused";
+                }
                 return "running";
             }
         }
@@ -266,7 +281,9 @@ public abstract class StreamDataProvider<D> implements DataProvider<D>, DataProv
         }
 
         public void syncWithVersion(long timeInMillis, String version) throws ZoieException {
-            if (version == null) return;
+            if (version == null) {
+                return;
+            }
             long now = System.currentTimeMillis();
             long due = now + timeInMillis;
             synchronized (this) {
@@ -354,7 +371,9 @@ public abstract class StreamDataProvider<D> implements DataProvider<D>, DataProv
             long count = 0;
             for (int i = 0; i < 60; i++) {
                 int id = (slot - i + 60) % 60;
-                if (i < window) countwindow += last60[id];
+                if (i < window) {
+                    countwindow += last60[id];
+                }
                 count += last60[id];
             }
             // use the higher of the rates in the time window and last 60 seconds

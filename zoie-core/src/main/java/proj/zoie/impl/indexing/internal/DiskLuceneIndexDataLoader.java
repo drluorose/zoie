@@ -150,7 +150,9 @@ public class DiskLuceneIndexDataLoader<R extends IndexReader> extends LuceneInde
 
     public void optimize(int numSegs) throws IOException {
         long t0 = System.currentTimeMillis();
-        if (numSegs <= 1) numSegs = 1;
+        if (numSegs <= 1) {
+            numSegs = 1;
+        }
         log.info("optmizing, numSegs: " + numSegs + " ...");
 
         // we should optimize
@@ -183,7 +185,9 @@ public class DiskLuceneIndexDataLoader<R extends IndexReader> extends LuceneInde
 
                 return (snapshot != null ? snapshot.writeTo(channel) : 0);
             } finally {
-                if (snapshot != null) snapshot.close();
+                if (snapshot != null) {
+                    snapshot.close();
+                }
             }
         }
         return 0;

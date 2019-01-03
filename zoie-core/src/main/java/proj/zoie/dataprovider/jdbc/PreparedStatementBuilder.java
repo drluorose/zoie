@@ -8,13 +8,14 @@ import java.sql.SQLException;
 import proj.zoie.api.DataConsumer.DataEvent;
 
 public interface PreparedStatementBuilder<T> {
-  PreparedStatement buildStatment(Connection conn, String fromVersion) throws SQLException;
+    PreparedStatement buildStatment(Connection conn, String fromVersion) throws SQLException;
 
-  /**
-   * <b>The builder should not ever change the cursor of the result set. It should only work on the current row.</b>
-   * @param rs
-   * @return DataEvent<T>
-   * @throws SQLException
-   */
-  DataEvent<T> buildDataEvent(ResultSet rs) throws SQLException;
+    /**
+     * <b>The builder should not ever change the cursor of the result set. It should only work on the current row.</b>
+     *
+     * @param rs
+     * @return DataEvent<T>
+     * @throws SQLException
+     */
+    DataEvent<T> buildDataEvent(ResultSet rs) throws SQLException;
 }

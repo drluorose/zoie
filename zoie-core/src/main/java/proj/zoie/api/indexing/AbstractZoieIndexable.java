@@ -7,9 +7,9 @@ package proj.zoie.api.indexing;
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,26 +18,30 @@ package proj.zoie.api.indexing;
  */
 
 public abstract class AbstractZoieIndexable implements ZoieIndexable {
-  public static final String DOCUMENT_ID_PAYLOAD_FIELD = "_ID";
-  public static final String DOCUMENT_STORE_FIELD = "_STORE";
+    public static final String DOCUMENT_ID_PAYLOAD_FIELD = "_ID";
+    public static final String DOCUMENT_STORE_FIELD = "_STORE";
 
-  public abstract IndexingReq[] buildIndexingReqs();
+    @Override
+    public abstract IndexingReq[] buildIndexingReqs();
 
-  abstract public long getUID();
+    @Override
+    abstract public long getUID();
 
-  abstract public boolean isDeleted();
+    @Override
+    abstract public boolean isDeleted();
 
-  public boolean isSkip() {
-    return false;
-  }
+    @Override
+    public boolean isSkip() {
+        return false;
+    }
 
-  @Override
-  public boolean isStorable() {
-    return false;
-  }
+    @Override
+    public boolean isStorable() {
+        return false;
+    }
 
-  @Override
-  public byte[] getStoreValue() {
-    return null;
-  }
+    @Override
+    public byte[] getStoreValue() {
+        return null;
+    }
 }

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package proj.zoie.hourglass.api;
 
@@ -10,8 +10,8 @@ import proj.zoie.api.indexing.AbstractZoieIndexable;
  *
  */
 public abstract class HourglassIndexable extends AbstractZoieIndexable {
-  @Override
-  public boolean isDeleted() {
-    return false;
-  }
+    @Override
+    public boolean isDeleted() {
+        return false;
+    }
 }

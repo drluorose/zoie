@@ -7,50 +7,51 @@ package proj.zoie.impl.indexing;
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import proj.zoie.api.indexing.IndexingEventListener.IndexingEvent;
 
 public final class IndexUpdatedEvent extends IndexingEvent {
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-  private final int _numDocsIndexed;
-  private final long _startIndexingTime;
-  private final long _endIndexingTime;
-  private final int _numDocsLeftInQueue;
+    private final int _numDocsIndexed;
+    private final long _startIndexingTime;
+    private final long _endIndexingTime;
+    private final int _numDocsLeftInQueue;
 
-  public IndexUpdatedEvent(int numDocsIndexed, long startIndexingTime, long endIndexingTime,
-      int numDocsLeftInQueue) {
-    _numDocsIndexed = numDocsIndexed;
-    _startIndexingTime = startIndexingTime;
-    _endIndexingTime = endIndexingTime;
-    _numDocsLeftInQueue = numDocsLeftInQueue;
-  }
+    public IndexUpdatedEvent(int numDocsIndexed, long startIndexingTime, long endIndexingTime,
+                             int numDocsLeftInQueue) {
+        _numDocsIndexed = numDocsIndexed;
+        _startIndexingTime = startIndexingTime;
+        _endIndexingTime = endIndexingTime;
+        _numDocsLeftInQueue = numDocsLeftInQueue;
+    }
 
-  public int getNumDocsIndexed() {
-    return _numDocsIndexed;
-  }
+    public int getNumDocsIndexed() {
+        return _numDocsIndexed;
+    }
 
-  public long getStartIndexingTime() {
-    return _startIndexingTime;
-  }
+    public long getStartIndexingTime() {
+        return _startIndexingTime;
+    }
 
-  public long getEndIndexingTime() {
-    return _endIndexingTime;
-  }
+    public long getEndIndexingTime() {
+        return _endIndexingTime;
+    }
 
-  public int getNumDocsLeftInQueue() {
-    return _numDocsLeftInQueue;
-  }
+    public int getNumDocsLeftInQueue() {
+        return _numDocsLeftInQueue;
+    }
 }
