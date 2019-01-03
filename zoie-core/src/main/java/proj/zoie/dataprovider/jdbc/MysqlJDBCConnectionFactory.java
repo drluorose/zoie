@@ -22,6 +22,7 @@ public class MysqlJDBCConnectionFactory implements JDBCConnectionFactory {
     _pw = password;
   }
 
+  @Override
   public synchronized Connection getConnection() throws SQLException {
     if (_conn == null) {
       try {
@@ -34,6 +35,7 @@ public class MysqlJDBCConnectionFactory implements JDBCConnectionFactory {
     return _conn;
   }
 
+  @Override
   public synchronized void showndown() throws SQLException {
     if (_conn != null) {
       _conn.close();

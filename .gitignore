@@ -15,3 +15,5 @@ TAGS
 cscope.*
 /bin
 /.project
+*.iml
+.idea

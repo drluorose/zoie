@@ -42,6 +42,7 @@ public class DelegateIndexDataConsumer<D> implements DataConsumer<D> {
     _interpreter = interpreter;
   }
 
+  @Override
   public void consume(Collection<DataEvent<D>> data) throws ZoieException {
     if (data != null) {
       // PriorityQueue<DataEvent<ZoieIndexable>> indexableList = new
@@ -83,6 +84,7 @@ public class DelegateIndexDataConsumer<D> implements DataConsumer<D> {
     }
   }
 
+  @Override
   public String getVersion() {
     throw new UnsupportedOperationException();
   }
