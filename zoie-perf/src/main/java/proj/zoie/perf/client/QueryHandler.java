@@ -1,7 +1,7 @@
 package proj.zoie.perf.client;
 
 public interface QueryHandler<T> {
-  T handleQuery() throws Exception;
+    T handleQuery() throws Exception;
 
-  String getCurrentVersion();
+    String getCurrentVersion();
 }
