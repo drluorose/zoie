@@ -22,8 +22,8 @@ import org.apache.lucene.document.Document;
 
 /**
  * Builder object to produce indexing requests.
- *
- * @param VALUE the generic type for the associated Key-Value store data. UID is the Key and type is always Long.
+ * <p>
+ * value the generic type for the associated Key-Value store data. UID is the Key and type is always Long.
  */
 public interface ZoieIndexable {
     /**
