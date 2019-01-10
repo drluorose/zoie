@@ -21,4 +21,6 @@ import proj.zoie.api.ZoieException;
 
 public interface ZoieSearchService {
     SearchResult search(SearchRequest req) throws ZoieException;
+
+    void start();
 }

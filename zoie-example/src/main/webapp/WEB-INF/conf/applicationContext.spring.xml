@@ -3,9 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
-	<import resource="propertyLoader.spring" />
-	<import resource="dataprovider.spring" />
-	<import resource="jmx.spring"/>
-	<import resource="zoie.spring"/>
+	<import resource="propertyLoader.spring.xml" />
+	<import resource="dataprovider.spring.xml" />
+	<import resource="jmx.spring.xml"/>
+	<import resource="zoie.spring.xml"/>
 	
 </beans>

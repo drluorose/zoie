@@ -118,7 +118,7 @@
 		<dependency>
 			<groupId>org.directwebremoting</groupId>
 			<artifactId>dwr</artifactId>
-			<version>3.0.M1</version>
+			<version>3.0.2-RELEASE</version>
 		</dependency>
 
     <!--  Spring Framework -->
@@ -137,6 +137,15 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/mx4j/mx4j-tools -->
+		<dependency>
+			<groupId>mx4j</groupId>
+			<artifactId>mx4j-tools</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+
+
 	</dependencies>
 
 </project>

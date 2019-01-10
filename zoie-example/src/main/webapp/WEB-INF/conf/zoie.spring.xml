@@ -37,5 +37,6 @@
 	
 	<bean id="searchService" class="proj.zoie.example.service.impl.ExampleZoieSearchServiceImpl">
 		<constructor-arg ref="index-reader-factory"/>
+		<constructor-arg ref="dataprovider"/>
 	</bean>
 </beans>

@@ -28,6 +28,7 @@ import org.apache.lucene.util.Version;
 import proj.zoie.api.IndexReaderFactory;
 import proj.zoie.api.ZoieException;
 import proj.zoie.api.ZoieMultiReader;
+import proj.zoie.impl.indexing.FileDataProvider;
 import proj.zoie.service.api.SearchHit;
 import proj.zoie.service.api.SearchRequest;
 import proj.zoie.service.api.SearchResult;
@@ -38,9 +39,16 @@ public class ExampleZoieSearchServiceImpl<R extends IndexReader> implements Zoie
     private static final Logger log = Logger.getLogger(ExampleZoieSearchServiceImpl.class);
 
     private final IndexReaderFactory<R> _idxReaderFactory;
+    private final FileDataProvider _fileDataProvider;
 
-    public ExampleZoieSearchServiceImpl(IndexReaderFactory<R> idxReaderFactory) {
+    public ExampleZoieSearchServiceImpl(IndexReaderFactory<R> idxReaderFactory, FileDataProvider fileDataProvider) {
         _idxReaderFactory = idxReaderFactory;
+        _fileDataProvider = fileDataProvider;
+    }
+
+    @Override
+    public void start() {
+        _fileDataProvider.start();
     }
 
     private static Map<String, String[]> convert(Document doc) {

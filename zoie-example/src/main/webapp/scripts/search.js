@@ -14,6 +14,11 @@ function doSearch()
   SearchService.search(searchRequest, handleDoSearch);
 }
 
+function doStart()
+{
+	SearchService.start();
+}
+
 function removeChildren(cell)
 {		    	
 	if ( cell.hasChildNodes() )

@@ -2,19 +2,20 @@
 	<head>
 		<title>Zoie Search</title>
 		<LINK href="styles/style.css" rel="stylesheet" type="text/css">
-		<script type="text/javascript" src="/dwr/interface/SearchService.js"> </script>
-		<script type="text/javascript" src="/dwr/engine.js"> </script>
+		<script type="text/javascript" src="/zoie_example_war/dwr/engine.js"> </script>
+		<script type="text/javascript" src="/zoie_example_war/dwr/interface/SearchService.js"> </script>
 		<script type="text/javascript" src="scripts/utils.js"> </script>
 		<script type="text/javascript" src="scripts/search.js"> </script>
 		<script type="text/javascript" src="scripts/jquery-1.2.6.js"> </script>
 	</head>
-	
+
 	<body>
   		<center>
 			<div id="header">Zoie</div>
 			<br/>
 				<input id="query" maxlength="2048" size="55" value=""/>
 				<input id="search" type="button" value="search" onclick="javascript:doSearch()"/>
+				<input id="start" type="button" value="start" onclick="javascript:doStart()"/>
 		</center>
 		<br/>
 		<br/>

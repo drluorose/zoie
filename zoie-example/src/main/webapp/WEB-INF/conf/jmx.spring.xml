@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="dataprovider.spring"/>
+	<import resource="dataprovider.spring.xml"/>
 
 	<bean id="mbeanServer" class="java.lang.management.ManagementFactory" factory-method="getPlatformMBeanServer"/>
 
@@ -21,7 +21,6 @@
 		</property>
 		<property name="server" ref="mbeanServer"/>
 	</bean>
-	<!--
 	<bean id="httpAdaptor" class="mx4j.tools.adaptor.http.HttpAdaptor" init-method="start" destroy-method="stop">
 		<property name="port" value="7777" />
 		<property name="host" value="0.0.0.0"/>
@@ -29,5 +28,4 @@
            <bean class="mx4j.tools.adaptor.http.XSLTProcessor"/>
         </property>
 	</bean>
-	-->
 </beans>

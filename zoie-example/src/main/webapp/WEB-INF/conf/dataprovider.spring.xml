@@ -3,12 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="zoie.spring"/>
+	<import resource="zoie.spring.xml"/>
 	
-	<import resource="propertyLoader.spring" />
+	<import resource="propertyLoader.spring.xml" />
 	
 	<bean id="dataprovider" class="proj.zoie.impl.indexing.FileDataProvider">
-		<constructor-arg value="file:${source.dir}"/>
+		<constructor-arg value="E:/douyu.workspace/adx-srv-java"/>
 		<constructor-arg ref="versionComparator"/>
 		<property name="dataConsumer" ref="consumer" />
 	</bean>
