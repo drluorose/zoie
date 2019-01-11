@@ -1,27 +1,11 @@
 package proj.zoie.hourglass.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import javax.management.NotCompliantMBeanException;
-import javax.management.StandardMBean;
-
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.store.Directory;
-
 import proj.zoie.api.DefaultDirectoryManager;
 import proj.zoie.api.DirectoryManager;
 import proj.zoie.api.DocIDMapper;
@@ -35,8 +19,22 @@ import proj.zoie.hourglass.mbean.HourglassAdminMBean;
 import proj.zoie.impl.indexing.ZoieConfig;
 import proj.zoie.impl.indexing.ZoieSystem;
 
+import javax.management.NotCompliantMBeanException;
+import javax.management.StandardMBean;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+@Slf4j
 public class Hourglass<R extends IndexReader, D> implements Zoie<R, D> {
-    public static final Logger log = Logger.getLogger(Hourglass.class);
     private final HourglassDirectoryManagerFactory _dirMgrFactory;
     private final ZoieIndexableInterpreter<D> _interpreter;
     private final IndexReaderDecorator<R> _decorator;
@@ -384,7 +382,7 @@ public class Hourglass<R extends IndexReader, D> implements Zoie<R, D> {
             try {
                 return new StandardMBean(getAdminMBean(), HourglassAdminMBean.class);
             } catch (NotCompliantMBeanException e) {
-                log.info(e);
+                log.info("compliant", e);
                 return null;
             }
         }

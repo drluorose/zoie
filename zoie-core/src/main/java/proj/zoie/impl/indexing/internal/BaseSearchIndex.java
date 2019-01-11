@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
@@ -38,8 +38,8 @@ import proj.zoie.api.ZoieHealth;
 import proj.zoie.api.ZoieMultiReader;
 import proj.zoie.api.indexing.ZoieIndexable.IndexingReq;
 
+@Slf4j
 public abstract class BaseSearchIndex<R extends IndexReader> {
-    private static final Logger log = Logger.getLogger(BaseSearchIndex.class);
 
     private int _eventsHandled = 0;
     protected MergeScheduler _mergeScheduler;

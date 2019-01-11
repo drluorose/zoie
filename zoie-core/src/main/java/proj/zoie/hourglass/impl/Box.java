@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.index.IndexReader;
 
 import proj.zoie.api.ZoieException;
@@ -12,8 +12,8 @@ import proj.zoie.api.ZoieMultiReader;
 import proj.zoie.api.indexing.IndexReaderDecorator;
 import proj.zoie.impl.indexing.ZoieSystem;
 
+@Slf4j
 public class Box<R extends IndexReader, D> {
-    public static final Logger log = Logger.getLogger(Box.class.getName());
     List<ZoieMultiReader<R>> _archives;
     List<ZoieSystem<R, D>> _archiveZoies;
     List<ZoieSystem<R, D>> _retiree;

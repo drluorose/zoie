@@ -1,27 +1,8 @@
 package proj.zoie.pair.impl;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javax.management.NotCompliantMBeanException;
-import javax.management.StandardMBean;
-
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexReader;
-
 import proj.zoie.api.DefaultDirectoryManager;
 import proj.zoie.api.DirectoryManager;
 import proj.zoie.api.DirectoryManager.DIRECTORY_MODE;
@@ -37,8 +18,25 @@ import proj.zoie.impl.indexing.ZoieSystem;
 import proj.zoie.impl.indexing.internal.IndexSignature;
 import proj.zoie.mbean.ZoieAdminMBean;
 
+import javax.management.NotCompliantMBeanException;
+import javax.management.StandardMBean;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+
+@Slf4j
 public class Pair<R extends IndexReader, D> implements Zoie<R, D> {
-    public static final Logger log = Logger.getLogger(Pair.class);
 
     private static final String COMMIT_FILE = "committed";
 
@@ -190,7 +188,7 @@ public class Pair<R extends IndexReader, D> implements Zoie<R, D> {
             try {
                 return new StandardMBean(getAdminMBean(), PairAdminMBean.class);
             } catch (NotCompliantMBeanException e) {
-                log.info(e);
+                log.info("e", e);
                 return null;
             }
         }

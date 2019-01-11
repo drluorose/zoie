@@ -17,11 +17,7 @@ package proj.zoie.api.impl;
  * limitations under the License.
  */
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.LogByteSizeMergePolicy;
 import org.apache.lucene.index.LogMergePolicy;
@@ -29,11 +25,15 @@ import org.apache.lucene.index.MergeScheduler;
 import org.apache.lucene.index.SegmentInfoPerCommit;
 import org.apache.lucene.index.SegmentInfos;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author ymatsuda
  */
+@Slf4j
 public class ZoieMergePolicy extends LogByteSizeMergePolicy {
-    public static final Logger log = Logger.getLogger(ZoieMergePolicy.class.getName());
     public static final int DEFAULT_NUM_LARGE_SEGMENTS = 6;
     public static final int DEFAULT_NUM_SMALL_SEGMENTS = 7;
     public static final int DEFAULT_MERGE_FACTOR = 6;
@@ -428,9 +428,10 @@ public class ZoieMergePolicy extends LogByteSizeMergePolicy {
         return null;
     }
 
+    @Slf4j
     public static class MergePolicyParams {
-        public static final Logger log = Logger.getLogger(ZoieMergePolicy.MergePolicyParams.class
-                .getName());
+
+
         private int _numLargeSegments;
         private int _maxSmallSegments;
         private boolean _doPartialExpunge;

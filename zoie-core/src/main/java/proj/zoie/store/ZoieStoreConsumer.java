@@ -1,17 +1,16 @@
 package proj.zoie.store;
 
+import lombok.extern.slf4j.Slf4j;
+import proj.zoie.api.LifeCycleCotrolledDataConsumer;
+import proj.zoie.api.ZoieException;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Comparator;
 
-import org.apache.log4j.Logger;
-
-import proj.zoie.api.LifeCycleCotrolledDataConsumer;
-import proj.zoie.api.ZoieException;
-
+@Slf4j
 public class ZoieStoreConsumer<D> implements LifeCycleCotrolledDataConsumer<D> {
 
-    private static final Logger logger = Logger.getLogger(ZoieStoreConsumer.class);
     private final ZoieStore _store;
     private final ZoieStoreSerializer<D> _serializer;
 
@@ -32,7 +31,7 @@ public class ZoieStoreConsumer<D> implements LifeCycleCotrolledDataConsumer<D> {
                 long id = _serializer.getUid(obj);
                 _store.put(id, bytes, version);
             } catch (Exception e) {
-                logger.error(e.getMessage(), e);
+                log.error(e.getMessage(), e);
             }
         }
     }
@@ -60,7 +59,7 @@ public class ZoieStoreConsumer<D> implements LifeCycleCotrolledDataConsumer<D> {
         try {
             _store.open();
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -69,7 +68,7 @@ public class ZoieStoreConsumer<D> implements LifeCycleCotrolledDataConsumer<D> {
         try {
             _store.close();
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
     }
 

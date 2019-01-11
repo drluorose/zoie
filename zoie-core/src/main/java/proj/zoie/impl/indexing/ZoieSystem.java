@@ -17,21 +17,7 @@ package proj.zoie.impl.indexing;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.channels.ReadableByteChannel;
-import java.nio.channels.WritableByteChannel;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import javax.management.NotCompliantMBeanException;
-import javax.management.StandardMBean;
-
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.IndexReader;
@@ -39,7 +25,6 @@ import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.similarities.DefaultSimilarity;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.util.Version;
-
 import proj.zoie.api.DefaultDirectoryManager;
 import proj.zoie.api.DirectoryManager;
 import proj.zoie.api.DocIDMapperFactory;
@@ -66,14 +51,25 @@ import proj.zoie.mbean.ZoieIndexingStatusAdmin;
 import proj.zoie.mbean.ZoieIndexingStatusAdminMBean;
 import proj.zoie.mbean.ZoieSystemAdminMBean;
 
+import javax.management.NotCompliantMBeanException;
+import javax.management.StandardMBean;
+import java.io.File;
+import java.io.IOException;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 /**
  * Zoie system, main class.
  */
-
+@Slf4j
 public class ZoieSystem<R extends IndexReader, D> extends AsyncDataConsumer<D> implements
         Zoie<R, D> {
-
-    private static final Logger log = Logger.getLogger(ZoieSystem.class);
 
     private final DirectoryManager _dirMgr;
     private final boolean _realtimeIndexing;
@@ -458,7 +454,7 @@ public class ZoieSystem<R extends IndexReader, D> extends AsyncDataConsumer<D> i
         try {
             return _dirMgr.getVersion();
         } catch (IOException e) {
-            log.error(e);
+            log.error("e", e);
         }
         return null;
     }
@@ -916,7 +912,7 @@ public class ZoieSystem<R extends IndexReader, D> extends AsyncDataConsumer<D> i
             try {
                 return new StandardMBean(this.getAdminMBean(), ZoieSystemAdminMBean.class);
             } catch (NotCompliantMBeanException e) {
-                log.info(e);
+                log.info("e", e);
                 return null;
             }
         }
@@ -925,7 +921,7 @@ public class ZoieSystem<R extends IndexReader, D> extends AsyncDataConsumer<D> i
                 return new StandardMBean(new ZoieIndexingStatusAdmin(this),
                         ZoieIndexingStatusAdminMBean.class);
             } catch (NotCompliantMBeanException e) {
-                log.info(e);
+                log.info("e", e);
                 return null;
             }
         }

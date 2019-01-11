@@ -10,13 +10,14 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.store.NIOFSDirectory;
 import org.apache.lucene.store.SimpleFSDirectory;
 
+import org.slf4j.Logger;
 import proj.zoie.api.DefaultDirectoryManager;
 import proj.zoie.api.DirectoryManager;
 import proj.zoie.api.DirectoryManager.DIRECTORY_MODE;
@@ -26,8 +27,8 @@ import proj.zoie.impl.indexing.internal.IndexSignature;
 /**
  * @author "Xiaoyang Gu<xgu@linkedin.com>"
  */
+@Slf4j
 public class HourglassDirectoryManagerFactory {
-    public static final Logger log = Logger.getLogger(HourglassDirectoryManagerFactory.class);
 
     private final File _root;
     private final HourGlassScheduler _scheduler;
@@ -113,7 +114,7 @@ public class HourglassDirectoryManagerFactory {
         try {
             log.info("rolling forward with new path: " + _location.getCanonicalPath());
         } catch (IOException e) {
-            log.error(e);
+            log.error(e.getMessage(), e);
         }
         _currentDirMgr = new DefaultDirectoryManager(_location, _mode);
         isRecentlyChanged = true;

@@ -18,5 +18,10 @@ package proj.zoie.api;
  */
 
 public interface IndexCopier {
+    /**
+     * @param src
+     * @param dest
+     * @return
+     */
     boolean copy(String src, String dest);
 }

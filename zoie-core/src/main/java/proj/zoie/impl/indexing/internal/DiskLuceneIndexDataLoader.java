@@ -25,7 +25,8 @@ import java.nio.channels.WritableByteChannel;
 import java.util.Collection;
 import java.util.Comparator;
 
-import org.apache.log4j.Logger;
+
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
@@ -38,9 +39,9 @@ import proj.zoie.api.indexing.OptimizeScheduler.OptimizeType;
 import proj.zoie.api.indexing.ZoieIndexable;
 import proj.zoie.impl.indexing.internal.SearchIndexManager.Status;
 
+@Slf4j
 public class DiskLuceneIndexDataLoader<R extends IndexReader> extends LuceneIndexDataLoader<R> {
 
-    private static final Logger log = Logger.getLogger(DiskLuceneIndexDataLoader.class);
     private final Object _optimizeMonitor;
     private volatile OptimizeScheduler _optScheduler;
 

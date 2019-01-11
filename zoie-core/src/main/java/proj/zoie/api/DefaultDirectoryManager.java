@@ -10,7 +10,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 import java.util.Date;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.MMapDirectory;
@@ -21,8 +21,8 @@ import proj.zoie.api.impl.util.ChannelUtil;
 import proj.zoie.api.impl.util.FileUtil;
 import proj.zoie.impl.indexing.internal.IndexSignature;
 
+@Slf4j
 public class DefaultDirectoryManager implements DirectoryManager {
-    public static final Logger log = Logger.getLogger(DefaultDirectoryManager.class);
 
     private final File _location;
     private final DIRECTORY_MODE _mode;

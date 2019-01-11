@@ -32,6 +32,7 @@ public class PriorityQueue<T> extends AbstractQueue<T> {
 
     private final int _capacity;
     private final T[] _items;
+
     private int _size = 0;
     private Comparator<? super T> _comp;
 

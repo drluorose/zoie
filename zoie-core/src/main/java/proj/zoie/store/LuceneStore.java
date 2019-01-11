@@ -1,12 +1,7 @@
 package proj.zoie.store;
 
 import it.unimi.dsi.fastutil.longs.Long2IntRBTreeMap;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.StoredField;
@@ -27,15 +22,18 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.util.Bits;
 import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.Version;
-
 import proj.zoie.api.ZoieSegmentReader;
 import proj.zoie.api.impl.ZoieMergePolicy;
 import proj.zoie.api.indexing.AbstractZoieIndexable;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+
+@Slf4j
 public class LuceneStore extends AbstractZoieStore {
 
     private static final String VERSION_NAME = "version";
-    private static final Logger logger = Logger.getLogger(LuceneStore.class);
 
     private static class ReaderData {
         final IndexReader reader;
@@ -85,7 +83,7 @@ public class LuceneStore extends AbstractZoieStore {
                 try {
                     this.reader.close();
                 } catch (IOException e) {
-                    logger.error(e.getMessage(), e);
+                    log.error(e.getMessage(), e);
                 }
             }
 

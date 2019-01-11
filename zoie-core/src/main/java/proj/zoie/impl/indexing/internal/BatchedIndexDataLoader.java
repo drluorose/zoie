@@ -17,18 +17,8 @@ package proj.zoie.impl.indexing.internal;
  * limitations under the License.
  */
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.index.IndexReader;
-
 import proj.zoie.api.DataConsumer;
 import proj.zoie.api.LifeCycleCotrolledDataConsumer;
 import proj.zoie.api.ZoieException;
@@ -40,6 +30,15 @@ import proj.zoie.api.indexing.ZoieIndexable;
 import proj.zoie.api.indexing.ZoieIndexableInterpreter;
 import proj.zoie.impl.indexing.IndexUpdatedEvent;
 import proj.zoie.impl.indexing.IndexingThread;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 /**
  * Runs a background thread that flushes incoming data events in batch to the background DataConsumer.
@@ -53,6 +52,7 @@ import proj.zoie.impl.indexing.IndexingThread;
  * @param <R>
  * @param <D>
  */
+@Slf4j
 public class BatchedIndexDataLoader<R extends IndexReader, D> implements
         LifeCycleCotrolledDataConsumer<D> {
 
@@ -69,8 +69,6 @@ public class BatchedIndexDataLoader<R extends IndexReader, D> implements
     protected final SearchIndexManager<R> _idxMgr;
     protected final ZoieIndexableInterpreter<D> _interpreter;
     private final Queue<IndexingEventListener> _lsnrList;
-
-    private static Logger log = Logger.getLogger(BatchedIndexDataLoader.class);
 
     /**
      * @param dataLoader

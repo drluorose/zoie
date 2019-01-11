@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexReader;
 
@@ -34,8 +34,8 @@ import proj.zoie.api.ZoieHealth;
 import proj.zoie.api.ZoieMultiReader;
 import proj.zoie.api.indexing.IndexReaderDecorator;
 
+@Slf4j
 public class SearchIndexManager<R extends IndexReader> implements IndexReaderFactory<R> {
-    private static final Logger log = Logger.getLogger(SearchIndexManager.class);
 
     public static enum Status {
         Sleep, Working

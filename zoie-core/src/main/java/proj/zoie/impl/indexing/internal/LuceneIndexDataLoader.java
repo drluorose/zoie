@@ -21,15 +21,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.StoredField;
@@ -38,7 +30,6 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.search.ConstantScoreQuery;
 import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.similarities.Similarity;
-
 import proj.zoie.api.DataConsumer;
 import proj.zoie.api.ZoieException;
 import proj.zoie.api.ZoieHealth;
@@ -48,9 +39,16 @@ import proj.zoie.api.indexing.ZoieIndexable;
 import proj.zoie.api.indexing.ZoieIndexable.IndexingReq;
 import proj.zoie.impl.indexing.internal.SearchIndexManager.Status;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
+@Slf4j
 public abstract class LuceneIndexDataLoader<R extends IndexReader> implements
         DataConsumer<ZoieIndexable> {
-    private static final Logger log = Logger.getLogger(LuceneIndexDataLoader.class);
     protected final Analyzer _analyzer;
     protected final Similarity _similarity;
     protected final SearchIndexManager<R> _idxMgr;
@@ -128,13 +126,17 @@ public abstract class LuceneIndexDataLoader<R extends IndexReader> implements
 
         try {
             for (DataEvent<ZoieIndexable> evt : events) {
-                if (evt == null) continue;
+                if (evt == null) {
+                    continue;
+                }
                 version = version == null ? evt.getVersion() : (_versionComparator.compare(version,
                         evt.getVersion()) < 0 ? evt.getVersion() : version);
 
                 // interpret and get get the indexable instance
                 ZoieIndexable indexable = evt.getData();
-                if (indexable == null || indexable.isSkip()) continue;
+                if (indexable == null || indexable.isSkip()) {
+                    continue;
+                }
 
                 long uid = indexable.getUID();
                 delSet.add(uid);
@@ -241,7 +243,9 @@ public abstract class LuceneIndexDataLoader<R extends IndexReader> implements
     public String getVersion() {
         BaseSearchIndex<R> idx = getSearchIndex();
         String version = null;
-        if (idx != null) version = idx.getVersion();
+        if (idx != null) {
+            version = idx.getVersion();
+        }
         return version;
     }
 

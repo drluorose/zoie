@@ -18,6 +18,14 @@ package proj.zoie.api;
  */
 
 import it.unimi.dsi.fastutil.longs.LongSet;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.lucene.index.AtomicReader;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.FilterDirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.SegmentReader;
+import org.apache.lucene.util.BytesRef;
+import proj.zoie.api.indexing.IndexReaderDecorator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,18 +35,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.log4j.Logger;
-import org.apache.lucene.index.AtomicReader;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.FilterDirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.SegmentReader;
-import org.apache.lucene.util.BytesRef;
-
-import proj.zoie.api.indexing.IndexReaderDecorator;
-
+@Slf4j
 public class ZoieMultiReader<R extends IndexReader> extends FilterDirectoryReader {
-    private static final Logger log = Logger.getLogger(ZoieMultiReader.class.getName());
     private final Map<String, ZoieSegmentReader<R>> _readerMap;
     private final List<ZoieSegmentReader<R>> _subZoieReaders;
     private List<R> _decoratedReaders;

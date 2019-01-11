@@ -17,16 +17,15 @@ package proj.zoie.impl.indexing;
  * limitations under the License.
  */
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.LinkedList;
-
-import org.apache.log4j.Logger;
-
+import lombok.extern.slf4j.Slf4j;
 import proj.zoie.api.DataConsumer;
 import proj.zoie.api.LifeCycleCotrolledDataConsumer;
 import proj.zoie.api.ZoieException;
 import proj.zoie.api.ZoieHealth;
+
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.LinkedList;
 
 // hao: just for debugging
 //import proj.zoie.api.DefaultZoieVersion;
@@ -41,8 +40,8 @@ import proj.zoie.api.ZoieHealth;
  * buffered events drop below this limit after some of them being sent to background
  * DataConsumer.
  */
+@Slf4j
 public class AsyncDataConsumer<D> implements LifeCycleCotrolledDataConsumer<D> {
-    private static final Logger log = Logger.getLogger(AsyncDataConsumer.class);
 
     private volatile ConsumerThread _consumerThread;
     private volatile DataConsumer<D> _consumer;
@@ -163,7 +162,9 @@ public class AsyncDataConsumer<D> implements LifeCycleCotrolledDataConsumer<D> {
      * @throws ZoieException
      */
     public void syncWithVersion(long timeInMillis, String version) throws ZoieException {
-        if (_consumerThread == null) throw new ZoieException("not running");
+        if (_consumerThread == null) {
+            throw new ZoieException("not running");
+        }
         if (version == null) {
             log.info("buffered version is NULL. Nothing to flush.");
             return;
@@ -172,8 +173,10 @@ public class AsyncDataConsumer<D> implements LifeCycleCotrolledDataConsumer<D> {
             long timeRemaining = Long.MAX_VALUE;
             while (_currentVersion == null || _versionComparator.compare(_currentVersion, version) < 0) {
                 if (log.isDebugEnabled()) {
-                    if (timeRemaining > timeInMillis + 5000) log.debug("syncWithVersion: timeRemaining: "
-                            + timeInMillis + "ms current: " + _currentVersion + " expecting: " + version);
+                    if (timeRemaining > timeInMillis + 5000) {
+                        log.debug("syncWithVersion: timeRemaining: "
+                                + timeInMillis + "ms current: " + _currentVersion + " expecting: " + version);
+                    }
                     timeRemaining = timeInMillis;
                 }
                 this.notifyAll();

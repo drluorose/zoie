@@ -1,21 +1,20 @@
 package proj.zoie.impl.indexing.internal;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.SimpleFSDirectory;
-
 import proj.zoie.api.indexing.IndexReaderDecorator;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @param <R>
  * @author "Xiaoyang Gu<xgu@linkedin.com>"
  */
+@Slf4j
 public class DefaultRAMDiskIndexFactory<R extends IndexReader> extends RAMIndexFactory<R> {
-    private static final Logger log = Logger.getLogger(DefaultRAMIndexFactory.class);
     private static int fold = 10000;
 
     @Override
@@ -29,8 +28,7 @@ public class DefaultRAMDiskIndexFactory<R extends IndexReader> extends RAMIndexF
             return new RAMSearchIndex<R>(version, decorator, idxMgr, ramIdxDir, backingdir);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            log.error(e);
-            e.printStackTrace();
+            log.error("e", e);
         }// new RAMDirectory();
         return null;
     }

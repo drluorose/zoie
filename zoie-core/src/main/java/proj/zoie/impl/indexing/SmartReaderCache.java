@@ -1,5 +1,11 @@
 package proj.zoie.impl.indexing;
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.lucene.index.IndexReader;
+import proj.zoie.api.IndexReaderFactory;
+import proj.zoie.api.ZoieException;
+import proj.zoie.api.ZoieMultiReader;
+
 import java.io.IOException;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
@@ -8,18 +14,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.apache.lucene.index.IndexReader;
-
-import proj.zoie.api.IndexReaderFactory;
-import proj.zoie.api.ZoieException;
-import proj.zoie.api.ZoieMultiReader;
-
 /**
  * @author dongjiejie
  */
+@Slf4j
 public class SmartReaderCache<R extends IndexReader> extends AbstractReaderCache<R> {
-    private static final Logger log = Logger.getLogger(DefaultReaderCache.class);
     private final Thread _maintenance;
     private volatile boolean alreadyShutdown = false;
     private volatile List<ZoieMultiReader<R>> cachedreaders = new ArrayList<ZoieMultiReader<R>>(0);

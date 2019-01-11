@@ -1,18 +1,17 @@
 package proj.zoie.impl.indexing;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.index.IndexReader;
-
 import proj.zoie.api.IndexReaderFactory;
 import proj.zoie.api.ZoieException;
 import proj.zoie.api.ZoieMultiReader;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+@Slf4j
 public class NoopReaderCache<R extends IndexReader> extends AbstractReaderCache<R> {
-    private static final Logger log = Logger.getLogger(NoopReaderCache.class);
     private volatile boolean alreadyShutdown = false;
     private final IndexReaderFactory<R> _readerfactory;
 

@@ -13,7 +13,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
+
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -28,8 +29,8 @@ import proj.zoie.api.impl.util.FileUtil;
 import proj.zoie.api.indexing.IndexReaderDecorator;
 import proj.zoie.impl.indexing.ZoieSystem;
 
+@Slf4j
 public class HourglassReaderManager<R extends IndexReader, D> {
-    public static final Logger log = Logger.getLogger(HourglassReaderManager.class.getName());
     private final HourglassDirectoryManagerFactory _dirMgrFactory;
     private final Hourglass<R, D> hg;
     private final IndexReaderDecorator<R> _decorator;
@@ -66,7 +67,7 @@ public class HourglassReaderManager<R extends IndexReader, D> {
                             this.wait(60000);
                         }
                     } catch (InterruptedException e) {
-                        log.warn(e);
+                        log.warn("e", e);
                     }
                     List<ZoieMultiReader<R>> archives = new LinkedList<ZoieMultiReader<R>>(box._archives);
                     List<ZoieMultiReader<R>> add = new LinkedList<ZoieMultiReader<R>>();
@@ -456,7 +457,7 @@ public class HourglassReaderManager<R extends IndexReader, D> {
                 DocIDMapper mapper = hg.getzConfig().getDocidMapperFactory().getDocIDMapper(zoiereader);
                 zoiereader.setDocIDMapper(mapper);
             } catch (IOException e) {
-                log.error(e);
+                log.error(e.getMessage(), e);
             }
         }
         archive(zoie, zoiereader);

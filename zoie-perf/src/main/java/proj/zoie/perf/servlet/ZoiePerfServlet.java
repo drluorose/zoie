@@ -61,7 +61,9 @@ public class ZoiePerfServlet extends HttpServlet {
                     res.getWriter().print("");
                     return;
                 }
-                if (line.trim().startsWith("#")) continue;
+                if (line.trim().startsWith("#")) {
+                    continue;
+                }
                 long newOffset = reader.getFilePointer();
                 res.getWriter().print(newOffset + ":" + line);
                 return;

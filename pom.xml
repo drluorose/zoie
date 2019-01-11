@@ -36,9 +36,9 @@
     <url>http://senseidb.github.com/zoie</url>
 
     <scm>
-        <connection>scm:git:git@github.com:senseidb/zoie.git</connection>
-        <developerConnection>scm:git:git@github.com:senseidb/zoie.git</developerConnection>
-        <url>https://github.com/senseidb/zoie</url>
+        <connection>scm:git:git@github.com:drluorose/zoie.git</connection>
+        <developerConnection>scm:git:git@github.com:drluorose/zoie.git</developerConnection>
+        <url>https://github.com/drluorose/zoie</url>
     </scm>
 
     <modules>

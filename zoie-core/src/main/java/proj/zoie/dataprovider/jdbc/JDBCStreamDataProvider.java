@@ -6,14 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Comparator;
 
-import org.apache.log4j.Logger;
 
+import lombok.extern.slf4j.Slf4j;
 import proj.zoie.api.DataConsumer;
 import proj.zoie.api.DataConsumer.DataEvent;
 import proj.zoie.impl.indexing.StreamDataProvider;
 
+@Slf4j
 public class JDBCStreamDataProvider<T> extends StreamDataProvider<T> {
-    private static final Logger log = Logger.getLogger(JDBCStreamDataProvider.class);
     private static final long DEFAULT_PULL_TIME = 1000;
     private final JDBCConnectionFactory _connFactory;
     private final PreparedStatementBuilder<T> _stmtBuilder;
@@ -107,7 +107,7 @@ public class JDBCStreamDataProvider<T> extends StreamDataProvider<T> {
                 _stmt = _stmtBuilder.buildStatment(_conn, _version);
                 _res = _stmt.executeQuery();
             } catch (SQLException sqle) {
-                log.fatal(sqle.getMessage(), sqle);
+                log.error(sqle.getMessage(), sqle);
                 _res = null;
             }
         }

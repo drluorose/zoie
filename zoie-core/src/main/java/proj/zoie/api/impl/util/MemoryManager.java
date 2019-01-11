@@ -1,17 +1,17 @@
 package proj.zoie.api.impl.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.lang.ref.WeakReference;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.log4j.Logger;
-
 /**
  * @author "Xiaoyang Gu<xgu@linkedin.com>"
  */
+@Slf4j
 public class MemoryManager<T> {
-    private static final Logger log = Logger.getLogger(MemoryManager.class.getName());
 
     private final ConcurrentHashMap<Integer, ConcurrentLinkedQueue<WeakReference<T>>> _sizeMap = new ConcurrentHashMap<Integer, ConcurrentLinkedQueue<WeakReference<T>>>();
     private final ConcurrentLinkedQueue<T> _releaseQueue = new ConcurrentLinkedQueue<T>();
@@ -30,7 +30,7 @@ public class MemoryManager<T> {
                         try {
                             MemoryManager.this.wait(200);
                         } catch (InterruptedException e) {
-                            log.error(e);
+                            log.error("e", e);
                         }
                     }
                     while ((buf = _releaseQueue.poll()) != null) {

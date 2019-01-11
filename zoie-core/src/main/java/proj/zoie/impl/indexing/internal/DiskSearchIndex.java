@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.nio.channels.ReadableByteChannel;
 import java.util.concurrent.TimeoutException;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
@@ -42,6 +42,7 @@ import proj.zoie.api.impl.ZoieMergePolicy.MergePolicyParams;
 import proj.zoie.api.impl.util.IndexUtil;
 import proj.zoie.api.indexing.IndexReaderDecorator;
 
+@Slf4j
 public class DiskSearchIndex<R extends IndexReader> extends BaseSearchIndex<R> {
     private final DirectoryManager _dirMgr;
     private final IndexReaderDispenser<R> _dispenser;
@@ -49,8 +50,6 @@ public class DiskSearchIndex<R extends IndexReader> extends BaseSearchIndex<R> {
     final MergePolicyParams _mergePolicyParams;
 
     private ZoieIndexDeletionPolicy _deletionPolicy;
-
-    public static final Logger log = Logger.getLogger(DiskSearchIndex.class);
 
     public DiskSearchIndex(DirectoryManager dirMgr, IndexReaderDecorator<R> decorator,
                            SearchIndexManager<R> idxMgr) {

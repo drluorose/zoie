@@ -17,21 +17,20 @@ package proj.zoie.impl.indexing;
  * limitations under the License.
  */
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.concurrent.atomic.AtomicLong;
-
-import org.apache.log4j.Logger;
-
+import lombok.extern.slf4j.Slf4j;
 import proj.zoie.api.DataConsumer;
 import proj.zoie.api.DataConsumer.DataEvent;
 import proj.zoie.api.DataProvider;
 import proj.zoie.api.ZoieException;
 import proj.zoie.mbean.DataProviderAdminMBean;
 
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicLong;
+
+@Slf4j
 public abstract class StreamDataProvider<D> implements DataProvider<D>, DataProviderAdminMBean {
-    private static final Logger log = Logger.getLogger(StreamDataProvider.class);
 
     private int _batchSize;
     private DataConsumer<D> _consumer;

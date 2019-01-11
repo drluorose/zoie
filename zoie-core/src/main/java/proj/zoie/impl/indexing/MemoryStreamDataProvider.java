@@ -17,16 +17,16 @@ package proj.zoie.impl.indexing;
  * limitations under the License.
  */
 
-import java.util.Iterator;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-
+import lombok.extern.slf4j.Slf4j;
 import proj.zoie.api.DataConsumer.DataEvent;
 import proj.zoie.api.ZoieException;
 
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+@Slf4j
 public class MemoryStreamDataProvider<D> extends StreamDataProvider<D> {
 
     private List<DataEvent<D>> _list;
@@ -34,7 +34,6 @@ public class MemoryStreamDataProvider<D> extends StreamDataProvider<D> {
     private volatile String _maxVersion = null;
 
     // private static final double DEFAULT_ITERS_PER_SECOND=100.0;
-    private static final Logger log = Logger.getLogger(MemoryStreamDataProvider.class);
 
     public MemoryStreamDataProvider(Comparator<String> versionComparator) {
         super(versionComparator);

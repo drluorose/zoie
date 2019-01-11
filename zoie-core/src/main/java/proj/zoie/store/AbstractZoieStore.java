@@ -1,6 +1,9 @@
 package proj.zoie.store;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.lucene.util.BytesRef;
+import proj.zoie.impl.indexing.ZoieConfig;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -12,14 +15,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import org.apache.log4j.Logger;
-import org.apache.lucene.util.BytesRef;
-
-import proj.zoie.impl.indexing.ZoieConfig;
-
+@Slf4j
 public abstract class AbstractZoieStore implements ZoieStore {
-
-    private static Logger logger = Logger.getLogger(AbstractZoieStore.class);
     private boolean _dataCompressed = true;
     private Comparator<String> _versionComparator = ZoieConfig.DEFAULT_VERSION_COMPARATOR;
 
@@ -79,7 +76,9 @@ public abstract class AbstractZoieStore implements ZoieStore {
         ByteArrayOutputStream bout = new ByteArrayOutputStream();
         while (gzipIn.available() > 0) {
             int len = gzipIn.read(buffer);
-            if (len <= 0) break;
+            if (len <= 0) {
+                break;
+            }
             if (len < buffer.length) {
                 bout.write(buffer, 0, len);
             } else {
@@ -172,7 +171,7 @@ public abstract class AbstractZoieStore implements ZoieStore {
             try {
                 dataList[idx++] = innerGet(uid);
             } catch (Exception e) {
-                logger.error(e.getMessage(), e);
+                log.error(e.getMessage(), e);
             }
         }
 

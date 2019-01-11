@@ -46,8 +46,12 @@ public class ZoiePerfVersion implements Comparable<ZoiePerfVersion> {
 
     @Override
     public int compareTo(ZoiePerfVersion o) {
-        if (offsetVersion == o.offsetVersion) return 0;
-        if (offsetVersion < o.offsetVersion) return -1;
+        if (offsetVersion == o.offsetVersion) {
+            return 0;
+        }
+        if (offsetVersion < o.offsetVersion) {
+            return -1;
+        }
         return 1;
     }
 }

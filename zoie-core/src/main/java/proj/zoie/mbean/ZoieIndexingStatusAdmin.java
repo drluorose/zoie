@@ -17,11 +17,11 @@ package proj.zoie.mbean;
  * limitations under the License.
  */
 
-import java.util.Date;
-
 import proj.zoie.api.indexing.IndexingEventListener;
 import proj.zoie.impl.indexing.IndexUpdatedEvent;
 import proj.zoie.impl.indexing.ZoieSystem;
+
+import java.util.Date;
 
 public class ZoieIndexingStatusAdmin implements ZoieIndexingStatusAdminMBean, IndexingEventListener {
     private final ZoieSystem<?, ?> _zoieSystem;

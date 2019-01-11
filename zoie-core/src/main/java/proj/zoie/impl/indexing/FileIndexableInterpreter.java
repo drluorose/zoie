@@ -17,24 +17,24 @@ package proj.zoie.impl.indexing;
  * limitations under the License.
  */
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
+import proj.zoie.api.indexing.AbstractZoieIndexable;
+import proj.zoie.api.indexing.ZoieIndexable;
+import proj.zoie.api.indexing.ZoieIndexableInterpreter;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
-
-import proj.zoie.api.indexing.AbstractZoieIndexable;
-import proj.zoie.api.indexing.ZoieIndexable;
-import proj.zoie.api.indexing.ZoieIndexableInterpreter;
-
+@Slf4j
 public class FileIndexableInterpreter implements ZoieIndexableInterpreter<File> {
     protected static int id = 0;
-    private static final Logger log = Logger.getLogger(FileIndexableInterpreter.class);
+
     static ThreadLocal<StringBuilder> myStringBuilder = new ThreadLocal<StringBuilder>();
     static ThreadLocal<char[]> myCharBuffer = new ThreadLocal<char[]>();
 
@@ -86,13 +86,13 @@ public class FileIndexableInterpreter implements ZoieIndexableInterpreter<File> 
                     end++;
                 }
             } catch (Exception e) {
-                log.error(e);
+                log.error("e", e);
             } finally {
                 if (freader != null) {
                     try {
                         freader.close();
                     } catch (IOException e) {
-                        log.error(e);
+                        log.error("e", e);
                     }
                 }
             }

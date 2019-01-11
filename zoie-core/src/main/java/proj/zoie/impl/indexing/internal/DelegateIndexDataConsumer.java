@@ -22,16 +22,17 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 
-import org.apache.log4j.Logger;
 
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import proj.zoie.api.DataConsumer;
 import proj.zoie.api.ZoieException;
 import proj.zoie.api.ZoieHealth;
 import proj.zoie.api.indexing.ZoieIndexable;
 import proj.zoie.api.indexing.ZoieIndexableInterpreter;
 
+@Slf4j
 public class DelegateIndexDataConsumer<D> implements DataConsumer<D> {
-    private static final Logger log = Logger.getLogger(DelegateIndexDataConsumer.class);
     private final DataConsumer<ZoieIndexable> _diskConsumer;
     private final DataConsumer<ZoieIndexable> _ramConsumer;
     private final ZoieIndexableInterpreter<D> _interpreter;

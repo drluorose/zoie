@@ -20,6 +20,9 @@ package proj.zoie.mbean;
 import java.util.Date;
 
 public interface ZoieIndexingStatusAdminMBean {
+    /**
+     * @return
+     */
     long getLastIndexingBatchDuration();
 
     long getAverageIndexingBatchDuration();

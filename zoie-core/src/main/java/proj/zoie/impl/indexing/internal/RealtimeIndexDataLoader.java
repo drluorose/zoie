@@ -24,11 +24,12 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Queue;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.similarities.Similarity;
 
+import org.slf4j.Logger;
 import proj.zoie.api.DataConsumer;
 import proj.zoie.api.ZoieException;
 import proj.zoie.api.ZoieHealth;
@@ -42,14 +43,13 @@ import proj.zoie.impl.indexing.IndexUpdatedEvent;
  *
  * @author ymatsuda, xgu
  */
+@Slf4j
 public class RealtimeIndexDataLoader<R extends IndexReader, D> extends BatchedIndexDataLoader<R, D> {
     private int _currentBatchSize;
     private final DataConsumer<ZoieIndexable> _ramConsumer;
     private final DiskLuceneIndexDataLoader<R> _luceneDataLoader;
     private final Analyzer _analyzer;
     private final Similarity _similarity;
-
-    private static Logger log = Logger.getLogger(RealtimeIndexDataLoader.class);
 
     public RealtimeIndexDataLoader(DiskLuceneIndexDataLoader<R> dataLoader, int batchSize,
                                    int maxBatchSize, long delay, Analyzer analyzer, Similarity similarity,

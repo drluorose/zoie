@@ -1,5 +1,10 @@
 package proj.zoie.perf.indexing;
 
+import lombok.extern.slf4j.Slf4j;
+import proj.zoie.api.DataConsumer.DataEvent;
+import proj.zoie.impl.indexing.StreamDataProvider;
+import proj.zoie.perf.client.ZoiePerfVersion;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,16 +12,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
-import org.apache.log4j.Logger;
-
-import proj.zoie.api.DataConsumer.DataEvent;
-import proj.zoie.impl.indexing.StreamDataProvider;
-import proj.zoie.impl.indexing.ZoieConfig;
-import proj.zoie.perf.client.ZoiePerfVersion;
-
+@Slf4j
 public class LinedFileDataProvider extends StreamDataProvider<String> {
-
-    private static final Logger logger = Logger.getLogger(LinedFileDataProvider.class);
 
     private final File _file;
     private long _startingOffset;
@@ -38,7 +35,9 @@ public class LinedFileDataProvider extends StreamDataProvider<String> {
         if (_rad != null) {
             try {
                 String line = _rad.readLine();
-                if (line == null) return null;
+                if (line == null) {
+                    return null;
+                }
 
                 String version = ZoiePerfVersion.toString(_count, _offset);
                 _offset += line.length();
@@ -46,7 +45,7 @@ public class LinedFileDataProvider extends StreamDataProvider<String> {
 
                 event = new DataEvent<String>(line, version);
             } catch (IOException ioe) {
-                logger.error(ioe.getMessage(), ioe);
+                log.error(ioe.getMessage(), ioe);
             }
         }
         return event;
@@ -77,7 +76,7 @@ public class LinedFileDataProvider extends StreamDataProvider<String> {
             }
             _count = 0;
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -98,7 +97,7 @@ public class LinedFileDataProvider extends StreamDataProvider<String> {
                     _rad.close();
                 }
             } catch (IOException ioe) {
-                logger.error(ioe.getMessage(), ioe);
+                log.error(ioe.getMessage(), ioe);
             } finally {
                 _rad = null;
             }

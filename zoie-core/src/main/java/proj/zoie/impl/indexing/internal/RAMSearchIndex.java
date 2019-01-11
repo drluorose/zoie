@@ -18,12 +18,7 @@ package proj.zoie.impl.indexing.internal;
  */
 
 import it.unimi.dsi.fastutil.longs.LongSet;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
-
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -34,7 +29,6 @@ import org.apache.lucene.index.SerialMergeScheduler;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.util.Version;
-
 import proj.zoie.api.DocIDMapper;
 import proj.zoie.api.ZoieMultiReader;
 import proj.zoie.api.impl.ZoieMergePolicy;
@@ -43,6 +37,11 @@ import proj.zoie.api.impl.util.FileUtil;
 import proj.zoie.api.impl.util.IndexUtil;
 import proj.zoie.api.indexing.IndexReaderDecorator;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
+@Slf4j
 public class RAMSearchIndex<R extends IndexReader> extends BaseSearchIndex<R> {
     private volatile String _version;
     private final Directory _directory;
@@ -51,8 +50,6 @@ public class RAMSearchIndex<R extends IndexReader> extends BaseSearchIndex<R> {
     // a consistent pair of reader and deleted set
     private volatile ZoieMultiReader<R> _currentReader;
     private final MergePolicyParams _mergePolicyParams;
-
-    public static final Logger log = Logger.getLogger(RAMSearchIndex.class);
 
     public RAMSearchIndex(String version, IndexReaderDecorator<R> decorator,
                           SearchIndexManager<R> idxMgr, Directory ramIdxDir, File backingdir) {
@@ -78,9 +75,11 @@ public class RAMSearchIndex<R extends IndexReader> extends BaseSearchIndex<R> {
         if (_directory != null) {
             try {
                 _directory.close();
-                if (_backingdir != null) FileUtil.rmDir(_backingdir);
+                if (_backingdir != null) {
+                    FileUtil.rmDir(_backingdir);
+                }
             } catch (IOException e) {
-                log.error(e);
+                log.error("e", e);
             }
         }
     }

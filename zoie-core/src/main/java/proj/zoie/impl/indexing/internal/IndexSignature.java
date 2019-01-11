@@ -17,6 +17,8 @@ package proj.zoie.impl.indexing.internal;
  * limitations under the License.
  */
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -25,10 +27,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
-import org.apache.log4j.Logger;
 
+@Slf4j
 public class IndexSignature {
-    private static Logger log = Logger.getLogger(IndexSignature.class);
 
     private String _version; // current version
 
@@ -59,7 +60,7 @@ public class IndexSignature {
             }
             writer.flush();
         } catch (IOException e) {
-            log.error(e);
+            log.error("e", e);
         } finally {
             if (writer != null) {
                 writer.close();
@@ -73,7 +74,7 @@ public class IndexSignature {
         try {
             line = reader.readLine();
         } catch (IOException e) {
-            log.error(e);
+            log.error("e", e);
         } finally {
             reader.close();
         }

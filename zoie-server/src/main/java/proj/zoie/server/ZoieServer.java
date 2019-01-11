@@ -1,15 +1,15 @@
 package proj.zoie.server;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.util.Properties;
-
 import org.apache.log4j.Logger;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.nio.SelectChannelConnector;
 import org.mortbay.jetty.webapp.WebAppContext;
 import org.mortbay.thread.QueuedThreadPool;
+
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.util.Properties;
 
 public class ZoieServer {
     private static final Logger log = Logger.getLogger(ZoieServer.class);
@@ -48,7 +48,9 @@ public class ZoieServer {
         log.info("loaded properties: " + props);
 
         String warDirName = props.getProperty("war.dir");
-        if (warDirName == null) throw new IllegalArgumentException("war.dir property not specified");
+        if (warDirName == null) {
+            throw new IllegalArgumentException("war.dir property not specified");
+        }
         File warDir = new File(warDirName);
 
         int minThread;
@@ -104,8 +106,11 @@ public class ZoieServer {
         server.addConnector(connector);
 
         File[] warFiles = warDir.listFiles(new FileFilter() {
+            @Override
             public boolean accept(File pathname) {
-                if (pathname.isDirectory()) return true;
+                if (pathname.isDirectory()) {
+                    return true;
+                }
                 String name = pathname.getName();
                 return name.endsWith(".war");
             }
@@ -137,6 +142,7 @@ public class ZoieServer {
         log.info("finished loading wars.");
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
             public void run() {
                 log.info("shutting down...");
                 try {

@@ -19,7 +19,7 @@ package proj.zoie.impl.indexing.internal;
 
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.store.Directory;
@@ -29,8 +29,8 @@ import proj.zoie.api.DocIDMapper;
 import proj.zoie.api.ZoieMultiReader;
 import proj.zoie.api.indexing.IndexReaderDecorator;
 
+@Slf4j
 public class IndexReaderDispenser<R extends IndexReader> {
-    private static final Logger log = Logger.getLogger(IndexReaderDispenser.class);
 
     private static final int INDEX_OPEN_NUM_RETRIES = 5;
     private volatile ZoieMultiReader<R> _currentReader;
@@ -51,7 +51,7 @@ public class IndexReaderDispenser<R extends IndexReader> {
                 getNewReader();
             }
         } catch (IOException e) {
-            log.error(e);
+            log.error("e", e);
         }
     }
 

@@ -17,15 +17,14 @@ package proj.zoie.impl.indexing;
  * limitations under the License.
  */
 
-import org.apache.log4j.Logger;
-
+import lombok.extern.slf4j.Slf4j;
 import proj.zoie.api.ZoieHealth;
 
 /**
  * The thread handling indexing in background. Such thread reports UncaughtExceptions automatically.
  */
+@Slf4j
 public class IndexingThread extends Thread {
-    private static final Logger log = Logger.getLogger(IndexingThread.class);
     private static final Thread.UncaughtExceptionHandler exceptionHandler = new Thread.UncaughtExceptionHandler() {
         public void uncaughtException(Thread thread, Throwable t) {
             ZoieHealth.setFatal();
