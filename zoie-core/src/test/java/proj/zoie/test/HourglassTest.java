@@ -15,8 +15,10 @@ import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
+import org.junit.Test;
 import proj.zoie.api.DataConsumer.DataEvent;
 import proj.zoie.api.DocIDMapper;
+import proj.zoie.api.ZoieException;
 import proj.zoie.api.ZoieMultiReader;
 import proj.zoie.api.ZoieSegmentReader;
 import proj.zoie.api.indexing.IndexReaderDecorator;
@@ -55,92 +57,36 @@ public class HourglassTest extends ZoieTestCaseBase {
     int minDirs = Integer.MAX_VALUE; // Minimum number of dirs after system is stable
     int maxDirs = 0;
 
-//    @Test
-//    public void testHourglassDirectoryManagerFactory() throws IOException, InterruptedException,
-//            ZoieException {
-//        File idxDir = getIdxDir();
-//        MBeanServer mbeanServer = ManagementFactory.getPlatformMBeanServer();
-//        HierarchyDynamicMBean hdm = new HierarchyDynamicMBean();
-//        try {
-//            mbeanServer.registerMBean(hdm, new ObjectName("HouseGlass:name=log4j"));
-//            // Add the root logger to the Hierarchy MBean
-//            hdm.addLoggerMBean(Logger.getRootLogger().getName());
-//
-//            // Get each logger from the Log4J Repository and add it to
-//            // the Hierarchy MBean created above.
-//            LoggerRepository r = LogManager.getLoggerRepository();
-//
-//            java.util.Enumeration loggers = r.getCurrentLoggers();
-//
-//            int count = 1;
-//            while (loggers.hasMoreElements()) {
-//                String name = ((Logger) loggers.nextElement()).getName();
-//                if (log.isDebugEnabled()) {
-//                    log.debug("[contextInitialized]: Registering " + name);
-//                }
-//                hdm.addLoggerMBean(name);
-//                count++;
-//            }
-//            if (log.isInfoEnabled()) {
-//                log.info("[contextInitialized]: " + count + " log4j MBeans registered.");
-//            }
-//        } catch (Exception e) {
-//            log.error("[contextInitialized]: Exception catched: ", e);
-//        }
-//        String schedule = "07 15 20";
-//        long numTestContent = 10250;
-//        oneTest(idxDir, schedule, numTestContent, true); // test starting from empty index
-//        oneTest(idxDir, schedule, numTestContent, true); // test index pick up
-//        oneTest(idxDir, schedule, numTestContent, false); // test index pick up
-//
-//        modifyTest(idxDir, schedule); // test deletes and updates
-//        return;
-//    }
+    @Test
+    public void testHourglassDirectoryManagerFactory() throws IOException, InterruptedException,
+            ZoieException {
+        File idxDir = getIdxDir();
+        String schedule = "07 15 20";
+        long numTestContent = 10250;
+        oneTest(idxDir, schedule, numTestContent, true); // test starting from empty index
+        oneTest(idxDir, schedule, numTestContent, true); // test index pick up
+        oneTest(idxDir, schedule, numTestContent, false); // test index pick up
 
-//    @SuppressWarnings("rawtypes")
-//    @Test
-//    public void testTrimming() throws Exception {
-//        File idxDir = getIdxDir();
-//        MBeanServer mbeanServer = ManagementFactory.getPlatformMBeanServer();
-//        HierarchyDynamicMBean hdm = new HierarchyDynamicMBean();
-//        try {
-//            mbeanServer.registerMBean(hdm, new ObjectName("HouseGlass:name=log4j"));
-//            // Add the root logger to the Hierarchy MBean
-//            hdm.addLoggerMBean(Logger.getRootLogger().getName());
-//
-//            // Get each logger from the Log4J Repository and add it to
-//            // the Hierarchy MBean created above.
-//            LoggerRepository r = LogManager.getLoggerRepository();
-//
-//            java.util.Enumeration loggers = r.getCurrentLoggers();
-//
-//            int count = 1;
-//            while (loggers.hasMoreElements()) {
-//                String name = ((Logger) loggers.nextElement()).getName();
-//                if (log.isDebugEnabled()) {
-//                    log.debug("[contextInitialized]: Registering " + name);
-//                }
-//                hdm.addLoggerMBean(name);
-//                count++;
-//            }
-//            if (log.isInfoEnabled()) {
-//                log.info("[contextInitialized]: " + count + " log4j MBeans registered.");
-//            }
-//        } catch (Exception e) {
-//            log.error("[contextInitialized]: Exception catched: ", e);
-//        }
-//        String schedule = "07 15 20";
-//
-//        System.out.println("Testing trimming, please wait for about 4 mins...");
-//
-//        int trimThreshold = 1;
-//        doTrimmingTest(idxDir, schedule, trimThreshold);
-//
-//        assertTrue("Maxdir should be >= than " + (trimThreshold + 2) + "but it's " + maxDirs,
-//                maxDirs >= trimThreshold + 2);
-//        assertEquals(trimThreshold + 1, minDirs);
-//        return;
-//    }
+        modifyTest(idxDir, schedule); // test deletes and updates
+        return;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Test
+    public void testTrimming() throws Exception {
+        File idxDir = getIdxDir();
+        String schedule = "07 15 20";
+
+        System.out.println("Testing trimming, please wait for about 4 mins...");
+
+        int trimThreshold = 1;
+        doTrimmingTest(idxDir, schedule, trimThreshold);
+
+        assertTrue("Maxdir should be >= than " + (trimThreshold + 2) + "but it's " + maxDirs,
+                maxDirs >= trimThreshold + 2);
+        assertEquals(trimThreshold + 1, minDirs);
+        return;
+    }
 
     private void modifyTest(File idxDir, String schedule) throws IOException, InterruptedException {
         HourglassDirectoryManagerFactory factory = new HourglassDirectoryManagerFactory(idxDir,

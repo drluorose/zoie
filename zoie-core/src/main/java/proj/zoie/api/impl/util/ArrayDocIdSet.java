@@ -89,7 +89,9 @@ public class ArrayDocIdSet extends DocIdSet {
                         current, largest);
                 if (idx < 0) {
                     idx = -(idx + 1);
-                    if (idx >= _docids.length) return DocIdSetIterator.NO_MORE_DOCS;
+                    if (idx >= _docids.length) {
+                        return DocIdSetIterator.NO_MORE_DOCS;
+                    }
                 }
                 current = idx;
                 doc = _docids[current];
