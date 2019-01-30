@@ -23,6 +23,7 @@ public class MemoryManager<T> {
         this._initializer = initializer;
         _cleanThread = new Thread(new Runnable() {
 
+            @Override
             public void run() {
                 T buf = null;
                 while (true) {

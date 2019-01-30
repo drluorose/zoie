@@ -36,7 +36,10 @@ public class IntSetAccelerator implements IntSet {
     private final long[] _filter;
     private final int _mask;
     private final IntSet _set;
-    private static final int MIXER = 2147482951; // a prime number
+    /**
+     * a prime number
+     */
+    private static final int MIXER = 2147482951;
 
     public IntSetAccelerator(IntSet set) {
         _set = set;
